@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Frete</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f7;
+            padding: 30px;
+            margin: 0;
+        }
+        .sistema {
+            max-width: 750px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+        }
+        h1 {
+            color: #174f78;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        h3 {
+            color: #174f78;
+            margin-top: 30px;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #174f78;
+            padding-bottom: 6px;
+        }
+        .linha {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        .campo {
+            width: 100%;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+        }
+        input:focus {
+            border-color: #174f78;
+            box-shadow: 0 0 0 2px rgba(23, 79, 120, 0.12);
+        }
+        .botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .botoes button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-calcular {
+            background-color: #174f78;
+        }
+        .btn-calcular:hover {
+            background-color: #0f3b5b;
+        }
+        .btn-limpar {
+            background-color: #a40000;
+        }
+        .btn-limpar:hover {
+            background-color: #800000;
+        }
+        table {
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th {
+            background-color: #174f78;
+            color: white;
+            padding: 10px;
+        }
+        td {
+            border: 1px solid #cccccc;
+            padding: 9px;
+            text-align: center;
+        }
+        .erro {
+            margin-top: 20px;
+            padding: 12px;
+            color: #a40000;
+            background-color: #ffe7e7;
+            border-left: 4px solid #a40000;
+            border-radius: 4px;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            .sistema {
+                padding: 18px;
+            }
+            .linha {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .botoes {
+                flex-direction: column;
+            }
+            .botoes button {
+                width: 100%;
+            }
+            table {
+                font-size: 12px;
+            }
+            td,
+            th {
+                padding: 7px;
+            }
+        }
+            .recomendacao {
+                color: #8B4513;
+                font-size: 12px;
+                font-weight: normal;
+                margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="sistema">
+        <h1>Frete Rodoviário</h1>
+
+        <div class="linha">
+            <div class="campo">
+                <label for="cliente">
+                    Nome do cliente
+                </label>
+                <input type="text" id="cliente" required>
+            </div>
+            <div class="campo">
+                <label for="distancia">
+                    Distância estimada em KM
+                </label>
+                <input type="number" id="distancia" step="0.01" min="0.01" required>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="campo">
+                <label for="cidade_nasc">
+                    Cidade de origem
+                </label>
+                <input type="text" id="cidade_nasc" required>
+            </div>
+            <div class="campo">
+                <label for="cidade_dest">
+                    Cidade de destino
+                </label>
+                <input type="text" id="cidade_dest" required>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="campo">
+                <label for="mercadoria">
+                    Descrição da mercadoria
+                </label>
+                <input type="text" id="mercadoria" required>
+            </div>
+            <div class="campo">
+                <label for="valor_nota">
+                    Valor apresentado na nota fiscal (R$)
+                </label>
+                <input type="number" id="valor_nota" step="0.01" min="0.01" required>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="campo">
+                <label for="quantidade">
+                    Quantidade de volumes
+                </label>
+                <input type="number" id="quantidade" step="1" min="0.01" required>
+            </div>
+            <div class="campo">
+                <label for="peso_real">
+                    Peso real do produto (KG)
+                </label>
+                <input type="number" id="peso_real" step="0.01" min="0.01" required>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="campo">
+                <label for="comprimento">
+                    Comprimento do volume (CM)
+                </label>
+                <input type="number" id="comprimento" step="0.01" min="0.01" required>
+            </div>
+            <div class="campo">
+                <label for="largura">
+                    Largura do volume (CM)
+                </label>
+                <input type="number" id="largura" step="0.01"min="0.01" required>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="campo">
+                <label for="altura">
+                    Altura do volume (CM)
+                </label>
+                <input type="number" id="altura" step="0.01" min="0.01" required>
+            </div>
+            <div class="campo">
+                <label for="tarifa">
+                    Tarifa por KM (R$)
+                </label>
+                <input type="number" id="tarifa" step="0.01" min="0.01" required>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="campo">
+                <label for="pedagio">
+                    Valor do pedágio (R$)
+                </label>
+                <input type="number" id="pedagio" step="0.01" min="0.01" required>
+            </div>
+            <div class="campo">
+                <label for="ad_valorem">
+                    Ad Valorem (%)
+                    <span class="recomendacao">(Valores recomendados entre 0 e 2%)</span>
+                </label>
+                <input type="number" id="ad_valorem" min="0.01" step="0.01" required>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="campo">
+                <label for="gris">
+                    GRIS (%)
+                    <span class="recomendacao">(Valores recomendados entre 0 e 3%)</span>
+                </label>
+                <input type="number" id="gris" min="0.01" step="0.01" required>
+            </div>
+            <div class="campo"></div>
+        </div>
+        <div class="botoes">
+            <button onclick="gerarFrete()" class="btn-calcular" type="button">
+                Calcular valor do frete
+            </button>
+            <button onclick="limparTudo()" class="btn-limpar" type="button">
+                Limpar tudo
+            </button>
+        </div>
+        <div id="resultado"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
